@@ -19,12 +19,14 @@ for n = 1:10
   
   [L, U] = ilu(A); % Factorización incompleta de A
 
-  M = L*U % Calculo la matriz de precondicionamiento
-  SC = eig(A)
-  CC = eig(inverse(M)*A*inverse(M))
+  B = A'*A; % A transpuesta por A
+  C = (inverse(M)*A*inverse(M))'*inverse(M)*A*inverse(M); %Debe haber alguna simplificación de esto
   
-  kappa1(n) = max(SC)/min(SC)
-  kappa2(n) = max(CC)/min(CC)
+  SC = eig(B);
+  CC = eig(C);
+  
+  kappa1(n) = max(SC)/min(SC);
+  kappa2(n) = max(CC)/min(CC);
 endfor
 % https://octave.sourceforge.io/octave/function/pcg.html documentacion de pcg
 % https://octave.sourceforge.io/octave/function/ilu.html documentacion de ilu
